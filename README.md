@@ -29,7 +29,7 @@ Atlas is an intelligent personal assistant that evolves with you. Built with mod
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/atlas.git
+git clone https://github.com/winstonzhao/atlas-assistant.git
 cd atlas
 ```
 
