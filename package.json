@@ -13,6 +13,7 @@
     "electron:preview": "npm run build && electron ."
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.33.1",
     "@chakra-ui/react": "^2.8.2",
     "@chakra-ui/theme": "^3.4.6",
     "@chakra-ui/theme-tools": "^2.2.6",

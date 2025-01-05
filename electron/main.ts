@@ -1,5 +1,7 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const { loadSettings, saveSettings } = require('./store')
+const { initializeAnthropicClient, sendMessage } = require('./anthropicService')
 
 const isDev = process.env.VITE_DEV_SERVER_URL !== undefined
 
@@ -29,7 +31,28 @@ function createWindow() {
 }
 
 // This method will be called when Electron has finished initialization
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  // Set up IPC handlers
+  ipcMain.handle('get-settings', () => {
+    return loadSettings();
+  });
+
+  ipcMain.handle('save-settings', (_, settings) => {
+    saveSettings(settings);
+    return loadSettings();
+  });
+
+  // Anthropic API handlers
+  ipcMain.handle('initialize-anthropic', () => {
+    return initializeAnthropicClient();
+  });
+
+  ipcMain.handle('send-message', async (_, messages) => {
+    return sendMessage(messages);
+  });
+
+  createWindow();
+})
 
 // Quit when all windows are closed
 app.on('window-all-closed', () => {
