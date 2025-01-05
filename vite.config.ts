@@ -1,36 +1,22 @@
 import { defineConfig } from 'vite'
-import electron from 'vite-plugin-electron'
-import renderer from 'vite-plugin-electron-renderer'
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    electron([
-      {
-        entry: 'electron/main/index.ts',
-        vite: {
-          build: {
-            outDir: 'dist-electron/main',
-          },
-        },
-      },
-      {
-        entry: 'electron/preload/index.ts',
-        vite: {
-          build: {
-            outDir: 'dist-electron/preload',
-          },
-        },
-      },
-    ]),
-    renderer(),
-  ],
+  plugins: [react()],
+  base: './',
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+  }
 })
